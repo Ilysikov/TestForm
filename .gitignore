@@ -1,0 +1,6 @@
+/qase/
+.idea/
+.venv/
+.venv
+.idea
+conftest.py
