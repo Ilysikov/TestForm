@@ -1,5 +1,5 @@
 import pages
-
+import pytest
 
 class TestFooter:
     pages.index_page.open_index_page()
