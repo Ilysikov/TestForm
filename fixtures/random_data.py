@@ -1,5 +1,5 @@
 import random
-from string import ascii_letters, digits, punctuation, whitespace, ascii_lowercase, hexdigits
+from string import digits, ascii_lowercase, hexdigits
 from datetime import datetime
 
 

@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "testform"
+version = "0.1.0"
+description = ""
+authors = ["Ilysikov <i_lysikov@bk.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "^8.3.2"
+selenium = "^4.23.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
