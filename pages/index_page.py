@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import config
 from fixtures import hobbies_, picture_, first_name, las_name, email_, gender_, mobile_, date_, subject_, states_, \
     address_
+import allure
 
 
 class IndexPage:
@@ -15,12 +16,16 @@ class IndexPage:
         self.driver = webdriver.Chrome()
         self.wait = WebDriverWait(self.driver, 30)
 
+    @allure.step("Открываем страницу тестируемой формы")
     def open_index_page(self) -> None:
         self.driver.get(config.url.DOMAIN)
 
+    @allure.step("Вводим рандомное слово в поле firstname")
+    @allure.step("Сохраняем себе скриншот страницы")
     def check_firstName(self):
         element = self.driver.find_element(By.ID, "firstName")
         element.send_keys(first_name["str"])
+        self.driver.get_screenshot_as_file(f"/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/{first_name['str']+first_name['str']}.png")
 
     def check_lastName(self):
         element = self.driver.find_element(By.ID, "lastName")

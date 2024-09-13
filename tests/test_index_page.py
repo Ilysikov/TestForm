@@ -1,12 +1,15 @@
 import pages
 import pytest
+import allure
 
 class TestFooter:
     pages.index_page.open_index_page()
 
+
+    @allure.suite(suite_name="firstname")
     def test_first(self):
         pages.index_page.check_firstName()
-
+    @pytest.mark.skip(reason="check")
     def test_last(self):
         pages.index_page.check_lastName()
 
