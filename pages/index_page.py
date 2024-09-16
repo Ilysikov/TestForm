@@ -4,28 +4,34 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from seleniumpagefactory import PageFactory
 
 import config
 from fixtures import hobbies_, picture_, first_name, las_name, email_, gender_, mobile_, date_, subject_, states_, \
     address_
 import allure
+from utils import scrin
 
 
-class IndexPage:
+class IndexPage(PageFactory):
+
+
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.wait = WebDriverWait(self.driver, 30)
+
+    locators = {"firstName": ("ID", "firstname"),
+                    "lastname": ("ID", "lastname")}
 
     @allure.step("Открываем страницу тестируемой формы")
     def open_index_page(self) -> None:
         self.driver.get(config.url.DOMAIN)
 
-    @allure.step("Вводим рандомное слово в поле firstname")
+    @allure.step(f"Вводим рандомное слово в поле")
     @allure.step("Сохраняем себе скриншот страницы")
     def check_firstName(self):
         element = self.driver.find_element(By.ID, "firstName")
         element.send_keys(first_name["str"])
-        self.driver.get_screenshot_as_file(f"/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/{first_name['str']+first_name['str']}.png")
 
     def check_lastName(self):
         element = self.driver.find_element(By.ID, "lastName")
@@ -62,6 +68,7 @@ class IndexPage:
         element = element[-1]
         element.click()
 
+
     def check_subject(self):
         element = self.wait.until(lambda wait: wait.find_element(By.ID, "subjectsInput"))
         for y in subject_["valid_subject"]:
@@ -74,6 +81,7 @@ class IndexPage:
             my_patch = f'//div[@id="hobbiesWrapper"]/div[2]/div[input[@id="{x}"]]'
             element = self.wait.until(lambda wait: wait.find_element(By.XPATH, my_patch))
             element.click()
+        return True
 
     def check_picture(self):
         element = self.driver.find_element(By.XPATH, "//input[@id='uploadPicture']")
@@ -100,3 +108,7 @@ class IndexPage:
         element.click()
         element = self.wait.until(lambda wait: wait.find_element(By.CSS_SELECTOR, f"button[class='btn btn-primary'"))
         element.click()
+
+    def screenshot(self, name):
+        self.driver.get_screenshot_as_file(scrin.new_file(name))
+
