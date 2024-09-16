@@ -1,17 +1,19 @@
-import pages
-import pytest
 import allure
+from src import pages
+from utils.blok_try import trust
+
 
 class TestFooter:
-    pages.index_page.open_index_page()
 
+
+    pages.new_index_page.open_index_page()
 
     @allure.suite(suite_name="firstname")
     def test_first(self):
-        pages.index_page.check_firstName()
-    @pytest.mark.skip(reason="check")
+        pages.new_index_page.check_firstName()
+
     def test_last(self):
-        pages.index_page.check_lastName()
+        pages.new_index_page.check_lastName()
 
     def test_email(self):
         pages.index_page.check_email()
@@ -22,6 +24,7 @@ class TestFooter:
     def test_mobile(self):
         pages.index_page.check_mobile()
 
+    @trust
     def test_date(self):
         pages.index_page.check_date()
 
@@ -29,7 +32,7 @@ class TestFooter:
         pages.index_page.check_subject()
 
     def test_hobbies(self):
-        pages.index_page.check_hobbies()
+        assert pages.index_page.check_hobbies() == True
 
     def test_picture(self):
         pages.index_page.check_picture()
