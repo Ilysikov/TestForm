@@ -26,7 +26,10 @@ class RandomFirstName(RandomInputBase):
         super().__init__()
         name = self.input_str(start=4, end=9)
         self.base = {
-            "str": name[0].upper() + name[1:],
+            "valid": name[0].upper() + name[1:],
+            "non":'   ',
+            "non2":'!!!!!!!!!!!!!!!!!!!!',
+            "non3":'4'
         }
 
 
@@ -35,7 +38,7 @@ class RandomLastName(RandomInputBase):
         super().__init__()
         name = self.input_str(start=6, end=14)
         self.base = {
-            "str": name[0].upper() + name[1:],
+            "valid": name[0].upper() + name[1:],
         }
 
 
@@ -60,7 +63,7 @@ class RandomMobile(RandomInputBase):
         super().__init__()
         self.base = {
             "int": self.input_int(),
-            "mobile": self.valid_mobile(),
+            "valid": self.valid_mobile(),
         }
 
     def valid_mobile(self):
@@ -77,7 +80,7 @@ class RandomPicture(RandomInputBase):
 
         self.base = {
             "non_valid": f"{self.input_str(end=10)}/{self.valid_file()}",
-            "valid_file": self.valid_file(),
+            "valid": self.valid_file(),
         }
 
     def valid_file(self):
@@ -90,7 +93,7 @@ class RandomDatetime(RandomInputBase):
         self.end_date = datetime.now().date()
         self.base = {
             "non_valid": self.non_date(),
-            "valid_file": self.valid_date(),
+            "valid": self.valid_date(),
         }
 
     def valid_date(self):
@@ -112,7 +115,7 @@ class RandomSubjects(RandomInputBase):
                         "Commerce", "Accounting", "Economics", "Arts", "Social Studies", "History", "Civics")
         self.base = {
             "non_valid": self.input_str(end=15),
-            "valid_subject": self.valid_subject(),
+            "valid": self.valid_subject(),
         }
 
     def valid_subject(self):
@@ -128,10 +131,10 @@ class RandomHobbies(RandomInputBase):
                          "hobbies-checkbox-2",
                          "hobbies-checkbox-3")
 
-        self.base = self.random_elements()
+        self.base = {"valid":self.random_elements()}
 
     def random_elements(self):
-        return set(random.choice(self.checkbox) for _ in range(random.randint(1, len(self.checkbox) + 1)))
+        return tuple(set(random.choice(self.checkbox) for _ in range(random.randint(1, len(self.checkbox) + 1))))
 
 
 class RandomStatesCity(RandomInputBase):
@@ -171,7 +174,7 @@ class RandomGender(RandomHobbies):
         self.checkbox = ("gender-radio-1",
                          "gender-radio-2",
                          "gender-radio-3")
-        self.base = self.random_elements()
+        self.base = {"valid":self.random_elements()}
 
     def random_elements(self):
         return random.choice(self.checkbox)
@@ -182,7 +185,7 @@ class RandomCurrentAddress(RandomStatesCity):
         super().__init__()
         self.base = {
             "non_valid": self.input_int(end=40),
-            "valid_address": self.valid_file(),
+            "valid": self.valid_file(),
         }
 
     def valid_file(self):

@@ -3,5 +3,5 @@
 .venv/
 .venv
 .idea
-conftest.py
+tests/conftest.py
 .idea/TestForm.iml
