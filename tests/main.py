@@ -28,11 +28,3 @@ if __name__ == "__main__":
     os.system("pytest --alluredir allure-results")
     add_history()
     os.system("allure serve allure-results")
-
-    # pytest.main(["test_index_page.py::TestFooter::test_first"])
-    # pytest.main(["-n 5"])
-    # pytest.main(["pytest --alluredir allure-results"])
-    # pytest.main(["test_index_page.py::TestForm::test_email"])
-    # pytest.main(["test_index_page.py::TestFooter::test_last"])
-    # pytest.main(["--dist= -durations=5"])
-    # pytest.main(["test_index_page.py::TestFooter::test_open","test_index_page.py::TestFooter::test_hobbies"])
