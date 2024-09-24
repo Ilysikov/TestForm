@@ -6,6 +6,7 @@ class TestFooter:
 
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     @allure.title("Test input field firstname")
+    @allure.step(f"Вводим рандомное слово в поле")
     def test_first(self, page, fix_name):
         page.check_firstName(fix_name[1])
         if not fix_name[0]:
@@ -13,6 +14,7 @@ class TestFooter:
 
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     @allure.title("Test input field lastname")
+    @allure.step(f"Вводим рандомное слово в поле")
     def test_last(self, page, fix_lastname):
         page.check_lastName(fix_lastname[1])
         if not fix_lastname[0]:
@@ -20,6 +22,8 @@ class TestFooter:
 
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     @allure.title("Test input field email")
+    @allure.step(f"Вводим рандомное слово в поле по одному символу")
+    @allure.step(f"Кликаем по полю после ввода всех символов")
     def test_email(self, page, fix_email_):
         page.check_email(fix_email_[1])
         if not fix_email_[0]:
@@ -27,6 +31,7 @@ class TestFooter:
 
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     @allure.title("Test input field gender")
+    @allure.step(f"Кликаем по рандомно-избранному гендеру")
     def test_gender(self, page, fix_gender_):
         page.check_gender(fix_gender_[1])
         if not fix_gender_[0]:

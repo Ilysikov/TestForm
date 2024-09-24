@@ -2,8 +2,6 @@ import os
 import shutil
 from pathlib import Path
 
-import pytest
-
 
 def clean():
     path = Path("/Users/ivanlysikov/PycharmProjects/TestForm/tests/allure-results")
