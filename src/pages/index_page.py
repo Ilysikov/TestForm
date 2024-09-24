@@ -23,10 +23,12 @@ from utils import scrin
 class IndexPage:
 
     @allure.step("Открываем страницу тестируемой формы")
-    def __init__(self, driver):
-        self.driver = driver
-        self.driver.implicitly_wait(8)
-        self.wait = WebDriverWait(driver, 20)
+    def __init__(self):
+
+        self.driver = webdriver.Remote(command_executor=config.container.command_executor,
+                                       options=config.container.options)
+        self.driver.implicitly_wait(2)
+        self.wait = WebDriverWait(self.driver,10)
         self.driver.get(config.url.DOMAIN)
 
     @allure.step(f"Вводим рандомное слово в поле")
@@ -35,15 +37,12 @@ class IndexPage:
         element = self.driver.find_element(By.ID, "firstName")
         element.send_keys(name)
 
-
-
     @allure.step(f"Кликаем по рандомно-избранному гендеру")
     def check_gender(self, gender_):
         self.wait.until(EC.invisibility_of_element_located((By.ID, gender_)))
         my_path = f'//div[@id="genterWrapper"]/div[2]/div[input[@id="{gender_}"]]'
         element = self.wait.until(lambda wait: wait.find_element(By.XPATH, my_path))
         element.click()
-
 
     def check_date(self, date_):
         element = self.wait.until(lambda wait: wait.find_element(By.ID, "dateOfBirth"))
@@ -74,8 +73,6 @@ class IndexPage:
             element = self.wait.until(lambda wait: wait.find_element(By.XPATH, my_patch))
             element.click()
 
-
-
     def check_states(self, states_):
         element = self.wait.until(lambda wait: wait.find_element(By.ID, "react-select-3-input"))
         for y in states_:
@@ -102,5 +99,3 @@ class IndexPage:
     def scrollbar(self):
         element = self.wait.until(lambda wait: wait.find_element(By.CSS_SELECTOR, f"button[class='btn btn-primary'"))
         ActionChains(self.driver).scroll_to_element(element).perform()
-
-

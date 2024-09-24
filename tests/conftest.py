@@ -8,27 +8,22 @@ import pytest
 import os.path
 from fixtures.random_data import RandomLastName, RandomEmail, RandomMobile, RandomPicture, \
     RandomDatetime, RandomSubjects, RandomStatesCity, RandomHobbies, RandomGender, RandomCurrentAddress, RandomFirstName
+from src import pages
 
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-    if rep.when == 'call' and (rep.failed or "tests/test_index_page.py::TestFooter::test_submit[page0]" == rep.nodeid):
-        try:
-            web_driver = item.funcargs['page']
-            if "tests/test_index_page.py::TestFooter::test_submit[page0]" == rep.nodeid:
-                web_driver.scrollbar()
-            name = web_driver.save_screenshot()
-            actual = base64.b64encode(Path(name).read_bytes()).decode()
-            content = json.dumps({"actual": f'data:image/png;base64,{actual}'}).encode()
-            allure.attach(content,
-                          name=f'screenshot[{str(random.randrange(1000))}]',
-                          attachment_type='application/vnd.allure.image.diff')  #allure.attachment_type.PNG)
-
-        except:
-
-            pass
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     rep = outcome.get_result()
+#     if rep.when == 'call' and rep.failed:
+#         web_driver = item.funcargs['page']
+#
+#         name = web_driver.save_screenshot()
+#         actual = base64.b64encode(Path(name).read_bytes()).decode()
+#         content = json.dumps({"actual": f'data:image/png;base64,{actual}'}).encode()
+#         allure.attach(content,
+#                       name=f'screenshot[{str(random.randrange(1000))}]',
+#                       attachment_type='application/vnd.allure.image.diff')  #allure.attachment_type.PNG)
 
 
 class My_data:
@@ -89,6 +84,12 @@ class My_data:
 
 
 pro = My_data()
+
+
+@pytest.fixture(scope="session")
+def page(request):
+    dict_classes = {"new_index": pages.new_index_page}
+    return dict_classes[request.param]
 
 
 @pytest.fixture(params=[i for i in pro.first_name.keys()])

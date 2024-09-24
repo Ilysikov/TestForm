@@ -19,10 +19,12 @@ class NewIndexPage(PageFactory, IndexPage):
                 "address": ("ID", "currentAddress")
                 }
     @allure.step("Открываем страницу тестируемой формы")
-    def __init__(self, driver):
+    def __init__(self):
         super().__init__()
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 3)
+        self.driver = webdriver.Remote(command_executor=config.container.command_executor,
+                                       options=config.container.options)
+        self.driver.implicitly_wait(8)
+        self.wait = WebDriverWait(self.driver, 30)
         self.driver.get(config.url.DOMAIN)
 
     @allure.step(f"Вводим рандомное слово в поле")

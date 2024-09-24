@@ -7,4 +7,4 @@ from fixtures import picture_, first_name, las_name, email_, gender_, mobile_, a
 import allure
 
 # index_pag = IndexPage(webdriver.Chrome())
-new_index_page = NewIndexPage(webdriver.Chrome())
+new_index_page = NewIndexPage()

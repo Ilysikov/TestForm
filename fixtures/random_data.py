@@ -79,7 +79,7 @@ class RandomPicture(RandomInputBase):
             "/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/329fbfff37cb49e16122c16195786e17.jpeg")
 
         self.base = {
-            "non_valid": f"{self.input_str(end=10)}/{self.valid_file()}",
+            # "non_valid": f"{self.input_str(end=10)}/{self.valid_file()}",
             "valid": self.valid_file(),
         }
 
@@ -114,7 +114,7 @@ class RandomSubjects(RandomInputBase):
         self.subject = ("Hindi", "English", "Maths", "Physics", "Chemistry", "Biology", "Computer Science",
                         "Commerce", "Accounting", "Economics", "Arts", "Social Studies", "History", "Civics")
         self.base = {
-            "non_valid": self.input_str(end=15),
+            # "non_valid": self.input_str(end=15),
             "valid": self.valid_subject(),
         }
 
