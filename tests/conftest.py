@@ -78,7 +78,6 @@ pro = My_data()
 def browser():
     driver = webdriver.Remote(command_executor=config.container.command_executor,
                               options=config.container.options)
-    driver = webdriver.Chrome()
     driver.get(config.url.DOMAIN)
     driver.implicitly_wait(10)
     return driver

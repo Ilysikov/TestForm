@@ -7,7 +7,10 @@ container = Container(capabilities={
     "browserVersion": "128.0",
     "selenoid:options": {
         "enableVideo": False,
-        "downloadsEnabled": True
+        "downloadsEnabled": True,
+        "sessionTimeout" : "3m"
+
+
     }
 },
     command_executor="http://localhost:4444/wd/hub",
