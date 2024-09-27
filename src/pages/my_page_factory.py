@@ -1,4 +1,6 @@
 import random
+import time
+
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
@@ -53,7 +55,9 @@ class NewIndexPage(PageFactory):
         element = self.wait.until(lambda d: d.find_element(By.ID, "subjectsInput"))
         for y in subject_:
             element.send_keys(y[0])
+            time.sleep(1)
             self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{y}")]')).click()
+            time.sleep(1)
 
     def check_hobbies(self, hobbies_):
         for x in hobbies_:
@@ -62,9 +66,10 @@ class NewIndexPage(PageFactory):
             webdriver.ActionChains(self.driver).move_to_element(element).click(element).perform()
 
     def check_states(self, states_):
-        self.driver.find_element(By.XPATH, '//*[@id="state"]').click()
+        # self.driver.find_element(By.XPATH, '//*[@id="state"]').click()
+        webdriver.ActionChains(self.driver).move_to_element(self.states).click(self.states).perform()
+        time.sleep(1)
         self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{states_}")]')).click()
-
 
     def check_city(self, city_):
         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="city"]'))).click()
