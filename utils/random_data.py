@@ -75,8 +75,8 @@ class RandomPicture(RandomInputBase):
         super().__init__()
 
         self.photo = (
-            "/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/27aa7456bc5926373ac26393b6627bd2.jpeg",
-            "/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/329fbfff37cb49e16122c16195786e17.jpeg")
+            "/Users/ivanlysikov/PycharmProjects/TestForm/utils/photo/27aa7456bc5926373ac26393b6627bd2.jpeg",
+            "/Users/ivanlysikov/PycharmProjects/TestForm/utils/photo/329fbfff37cb49e16122c16195786e17.jpeg")
 
         self.base = {
             # "non_valid": f"{self.input_str(end=10)}/{self.valid_file()}",

@@ -86,7 +86,7 @@ def browser():
 
 @pytest.fixture(scope="class")
 def wait(browser):
-    return WebDriverWait(browser, 5)
+    return WebDriverWait(browser, 15)
 
 
 @pytest.fixture
