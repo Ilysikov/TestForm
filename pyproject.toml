@@ -11,6 +11,7 @@ pytest = "^8.3.2"
 selenium = "^4.23.1"
 allure-pytest="2.13.5"
 allure-python-commons="2.13.5"
+selenium-page-factory="^2.7"
 
 [build-system]
 requires = ["poetry-core"]
