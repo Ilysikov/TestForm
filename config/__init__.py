@@ -6,7 +6,7 @@ container = Container(capabilities={
     "browserName": "chrome",
     "browserVersion": "128.0",
     "selenoid:options": {
-        "enableVideo": True,
+        "enableVideo": False,
         "downloadsEnabled": True
     }
 },
