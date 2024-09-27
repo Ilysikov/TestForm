@@ -65,11 +65,9 @@ class TestFooter:
     def test_states(self, page, fix_states_):
         page.check_states(fix_states_)
 
-
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     def test_city(self, page, fix_city_):
         page.check_city(fix_city_)
-
 
     @pytest.mark.parametrize("page", ["new_index"], indirect=True)
     def test_submit(self, page):

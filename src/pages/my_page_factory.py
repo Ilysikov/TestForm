@@ -33,9 +33,11 @@ class NewIndexPage(PageFactory):
         self.wait.until(EC.invisibility_of_element_located((By.ID, gender_)))
         my_path = f'//div[@id="genterWrapper"]/div[2]/div[input[@id="{gender_}"]]'
         element = self.wait.until(lambda wait: wait.find_element(By.XPATH, my_path))
+        self.scrollbar(element)
         element.click()
 
     def check_date(self, date_):
+        self.scrollbar(self.date_year)
         element = self.driver.find_element(By.ID, "dateOfBirth")
         element.click()
         element = Select(self.driver.find_element(By.CSS_SELECTOR, "select.react-datepicker__year-select"))
@@ -61,24 +63,28 @@ class NewIndexPage(PageFactory):
         for x in hobbies_:
             my_patch = f'//div[@id="hobbiesWrapper"]/div[2]/div[input[@id="{x}"]]'
             element = self.driver.find_element(By.XPATH, my_patch)
-            # webdriver.ActionChains(self.driver).move_to_element(element).click(element).perform()
+            webdriver.ActionChains(self.driver).move_to_element(element).click(element).perform()
 
     def check_states(self, states_):
-        webdriver.ActionChains(self.wait).move_to_element(self.submit).perform()
-        time.sleep(1)
-        # self.driver.find_element(By.XPATH, '//*[@id="state"]').click()
-        self.wait.until(EC.element_to_be_clickable((By.ID, "react-select-3-input"))).click()
-        time.sleep(1)
+        self.driver.find_element(By.XPATH, '//*[@id="state"]').click()
         self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{states_}")]')).click()
-        time.sleep(1)
+
 
     def check_city(self, city_):
-        self.wait.until(EC.element_to_be_clickable((By.ID, "react-select-4-input"))).click()
-        time.sleep(1)
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="city"]'))).click()
         self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{city_}")]')).click()
 
     def check_submit(self):
         webdriver.ActionChains(self.driver).move_to_element(self.submit).click(self.submit).perform()
+
+    def screenshot(self):
+        name = f"/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/screnshot{random.randrange(100)}.png"
+        self.driver.save_screenshot(name)
+        return name
+
+    def scrollbar(self, element):
+        scroll_origin = ScrollOrigin.from_element(element)
+        ActionChains(self.driver).scroll_from_origin(scroll_origin, 0, 200).perform()
 
     def check_firstName(self, name):
         self.firstname.send_keys(name)
