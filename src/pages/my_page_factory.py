@@ -69,18 +69,12 @@ class NewIndexPage(PageFactory):
         self.driver.find_element(By.XPATH, '//*[@id="state"]').click()
         self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{states_}")]')).click()
 
-
     def check_city(self, city_):
         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="city"]'))).click()
         self.wait.until(lambda d: d.find_element(By.XPATH, f'//div[contains(text(),"{city_}")]')).click()
 
     def check_submit(self):
         webdriver.ActionChains(self.driver).move_to_element(self.submit).click(self.submit).perform()
-
-    def screenshot(self):
-        name = f"/Users/ivanlysikov/PycharmProjects/TestForm/fixtures/photo/screnshot{random.randrange(100)}.png"
-        self.driver.save_screenshot(name)
-        return name
 
     def scrollbar(self, element):
         scroll_origin = ScrollOrigin.from_element(element)
