@@ -27,9 +27,9 @@ class RandomFirstName(RandomInputBase):
         name = self.input_str(start=4, end=9)
         self.base = {
             "valid": name[0].upper() + name[1:],
-            "non":'   ',
-            "non2":'!!!!!!!!!!!!!!!!!!!!',
-            "non3":'4'
+            "non": '   ',
+            "non2": '!!!!!!!!!!!!!!!!!!!!',
+            "non3": '4'
         }
 
 
@@ -114,12 +114,12 @@ class RandomSubjects(RandomInputBase):
         self.subject = ("Hindi", "English", "Maths", "Physics", "Chemistry", "Biology", "Computer Science",
                         "Commerce", "Accounting", "Economics", "Arts", "Social Studies", "History", "Civics")
         self.base = {
-            # "non_valid": self.input_str(end=15),
             "valid": self.valid_subject(),
         }
 
     def valid_subject(self):
-        random_subject = set([random.choice(self.subject) for _ in range(random.randint(1, 25))])
+        random_subject = [i for i in set([random.choice(self.subject) for _ in range(random.randint(1, 25))]) if
+                          type(i) == str and i != ...]
 
         return random_subject
 
@@ -131,7 +131,7 @@ class RandomHobbies(RandomInputBase):
                          "hobbies-checkbox-2",
                          "hobbies-checkbox-3")
 
-        self.base = {"valid":self.random_elements()}
+        self.base = {"valid": self.random_elements()}
 
     def random_elements(self):
         return tuple(set(random.choice(self.checkbox) for _ in range(random.randint(1, len(self.checkbox) + 1))))
@@ -142,30 +142,30 @@ class RandomStatesCity(RandomInputBase):
         super().__init__()
         self.states_city = {"NCR": ["Delhi", "Gurgaon", "Noida"],
                             "Uttar Pradesh": ["Agra", "Lucknow", "Merrut"],
-                            "Haryana": ["Karnal", "Karnal", "Panipat", "Panipat"],
+                            "Haryana": ["Karnal", "Panipat"],
                             "Rajasthan": ["Jaipur", "Jaiselmer"]}
 
         self.valid_ = self.valid_states_city()
-        self.non_ = self.non_city()
 
         self.base = {
-            "non_city": self.non_["city"],
-            "non_states": self.non_["states"],
-            "valid_states": self.valid_["states"],
-            "valid_city": self.valid_["city"],
+            "valid_states": self.valid_["valid_states"],
+            "valid_city": self.valid_["valid_city"],
 
         }
 
-    def valid_states_city(self):
-        random_states = random.choice(tuple(self.states_city.keys()))
+    def valid_states_city(self, states=None):
+        random_states = states if states else random.choice(tuple(self.states_city.keys()))
         random_city = random.choice(self.states_city[random_states])
-        return {"states": random_states, "city": random_city}
+        return {"valid_states": random_states, "valid_city": random_city}
 
-    def non_city(self):
-        random_states = random.choice(tuple(self.states_city.keys()))
-        alter_states = [i for i in self.states_city.keys() if i != random_states]
-        random_city = random.choice(alter_states)
-        return {"states": random_states, "city": random_city}
+
+
+class RandomCity(RandomStatesCity):
+
+    def my_city(self, states):
+        print(states)
+        print(self.valid_states_city(states))
+        return self.valid_states_city(states)
 
 
 class RandomGender(RandomHobbies):
@@ -174,7 +174,7 @@ class RandomGender(RandomHobbies):
         self.checkbox = ("gender-radio-1",
                          "gender-radio-2",
                          "gender-radio-3")
-        self.base = {"valid":self.random_elements()}
+        self.base = {"valid": self.random_elements()}
 
     def random_elements(self):
         return random.choice(self.checkbox)
@@ -191,4 +191,4 @@ class RandomCurrentAddress(RandomStatesCity):
     def valid_file(self):
         states_city = self.valid_states_city()
         return (f'{str(random.randint(1, 2345))}/{str(random.randint(1, 12))} {self.input_str(end=22)}'
-                f'{states_city["city"]} {states_city["states"]}')
+                f'{states_city["valid_city"]} {states_city["valid_states"]}')

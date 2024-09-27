@@ -1,28 +1,12 @@
-import base64
-import json
-import random
-from pathlib import Path
-
-import allure
 import pytest
-from fixtures.random_data import RandomLastName, RandomEmail, RandomMobile, RandomPicture, \
-    RandomDatetime, RandomSubjects, RandomStatesCity, RandomHobbies, RandomGender, RandomCurrentAddress, RandomFirstName
-from src import pages
+from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 
-
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-    if rep.when == 'call' and rep.failed:
-        web_driver = item.funcargs['page']
-
-        name = web_driver.save_screenshot()
-        actual = base64.b64encode(Path(name).read_bytes()).decode()
-        content = json.dumps({"actual": f'data:image/png;base64,{actual}'}).encode()
-        allure.attach(content,
-                      name=f'screenshot[{str(random.randrange(1000))}]',
-                      attachment_type='application/vnd.allure.image.diff')
+import config
+from utils.random_data import RandomLastName, RandomEmail, RandomMobile, RandomPicture, \
+    RandomDatetime, RandomSubjects, RandomStatesCity, RandomHobbies, RandomGender, RandomCurrentAddress, \
+    RandomFirstName, RandomCity
+from src.pages.my_page_factory import NewIndexPage
 
 
 class My_data:
@@ -72,6 +56,11 @@ class My_data:
         return states_object.my_dict()
 
     @property
+    def city_(self):
+        city_object = RandomCity()
+        return city_object.my_city(self.states_["valid_states"])
+
+    @property
     def hobbies_(self):
         hobbies_object = RandomHobbies()
         return hobbies_object.my_dict()
@@ -85,10 +74,26 @@ class My_data:
 pro = My_data()
 
 
+@pytest.fixture(scope="session")
+def browser():
+    driver = webdriver.Remote(command_executor=config.container.command_executor,
+                              options=config.container.options)
+    # driver = webdriver.Chrome()
+    driver.get(config.url.DOMAIN)
+    driver.implicitly_wait(10)
+    return driver
+
+
+@pytest.fixture(scope="class")
+def wait(browser):
+    return WebDriverWait(browser, 5)
+
+
 @pytest.fixture
-def page(request):
-    dict_classes = {"new_index": pages.new_index_page}
-    return dict_classes[request.param]
+def page(request, browser, wait):
+    dict_classes = {"new_index": NewIndexPage}
+    page = dict_classes[request.param](browser, wait)
+    return page
 
 
 @pytest.fixture(params=[i for i in pro.first_name.keys()])
@@ -155,15 +160,18 @@ def fix_address_(request):
     return request.param
 
 
-@pytest.fixture(params=[i for i in pro.states_.keys()])
-def fix_states_(request):
-    data = pro.states_[request.param]
-    excepted = request.param if request.param == "valid_states" else None
-    return excepted, data
+@pytest.fixture(scope="session")
+def fix_states_city():
+    return pro.states_
 
 
-@pytest.fixture(scope="session", params=[i for i in pro.states_.keys()])
-def fix_city_(request):
-    data = pro.states_[request.param]
-    excepted = request.param if request.param == "valid_city" else None
-    return excepted, data
+@pytest.fixture(scope="session")
+def fix_states_(fix_states_city):
+    data = fix_states_city["valid_states"]
+    return data
+
+
+@pytest.fixture(scope="session")
+def fix_city_(fix_states_city):
+    data = fix_states_city["valid_city"]
+    return data
