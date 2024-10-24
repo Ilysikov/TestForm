@@ -1,6 +1,7 @@
 services:
   selenoid:
-    image: "aerokube/selenoid"
+    image: "aerokube/selenoid:latest-release"
+    platform: linux/amd64
     network_mode: bridge
     restart: always
     ports:
@@ -9,11 +10,12 @@ services:
       - "$PWD:/etc/selenoid/"
       - "/var/run/docker.sock:/var/run/docker.sock"
   selenoid-ui:
-    image: "aerokube/selenoid-ui"
+    image: "aerokube/selenoid-ui:latest-release"
+    platform: linux/amd64
     network_mode: bridge
     restart: always
     links:
       - selenoid
     ports:
       - "8080:8080"
-    command: ["--selenoid-uri", "http://selenoid:4444", '--args "-timeout 10m "']
+    command: ["--selenoid-uri", "http://selenoid:4444"]
